@@ -4,17 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "LearningAgentsManager.h"
-#include "RLVehicleAgentsManager.generated.h"
+#include "RLVehicleEnvironmentConstantData.generated.h"
 
+
+/**
+ * Environment Constant Data, store static data in different environments, need to be initialized
+ * Example : Track spline
+ */
 UCLASS()
-class RLVEHICLE_API ARLVehicleAgentsManager : public AActor
+class RLVEHICLE_API ARLVehicleEnvironmentConstantData : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ARLVehicleAgentsManager();
+	ARLVehicleEnvironmentConstantData();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,8 +28,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicle")
-	ULearningAgentsManager* LearningAgentsManager;
+	virtual void Init(){}
 
 };

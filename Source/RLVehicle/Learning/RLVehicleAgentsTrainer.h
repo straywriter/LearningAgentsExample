@@ -13,5 +13,12 @@ UCLASS()
 class RLVEHICLE_API URLVehicleAgentsTrainer : public ULearningAgentsTrainer
 {
 	GENERATED_BODY()
+
+	// init
+
+
+	// get settings
+
+	
 	
 };
