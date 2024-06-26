@@ -11,19 +11,31 @@
 
 class URLVehicleAgentsInteractor;
 class URLVehicleAgentsTrainer;
-class ARLVehicleEnvironmentConstantData;
+class ARLVehicleEnvironmentData;
 
 /**
  * Different Settings through blueprint instance
  * Setting interactor trainer and manager
  */
 UCLASS()
-class RLVEHICLE_API URLVehicleSetting : public UObject
+class RLVEHICLE_API URLVehicleSetting : public UObject, public IInterface_AssetUserData
 {
 	GENERATED_BODY()
 
 public:
+	/** Name */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+	FName PolicyName;
+	
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+	//
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+
+	
 	/** Class */
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleClass")
+	TSubclassOf<UObject> AgentClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleClass")
 	TSubclassOf<URLVehicleAgentsInteractor> AgentInteractorClass;
@@ -32,7 +44,7 @@ public:
 	TSubclassOf<URLVehicleAgentsTrainer> AgentTrainerClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleClass")
-	TSubclassOf<ARLVehicleEnvironmentConstantData> EnvironmentConstantDataClass;
+	TSubclassOf<ARLVehicleEnvironmentData> EnvironmentConstantDataClass;
 
 	/** Setting */
 	

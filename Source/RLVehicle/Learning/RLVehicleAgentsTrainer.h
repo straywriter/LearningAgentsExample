@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "LearningAgentsTrainer.h"
+#include "RLVehicleAgentsManager.h"
 #include "RLVehicleAgentsTrainer.generated.h"
 
 /**
@@ -14,11 +15,14 @@ class RLVEHICLE_API URLVehicleAgentsTrainer : public ULearningAgentsTrainer
 {
 	GENERATED_BODY()
 
-	// init
+public:
 
-
-	// get settings
-
+	virtual void Init(){}
 	
-	
+	ARLVehicleAgentsManager* GetRLVehicleManager() const { return RLVehicleLearningManager; }
+
+	UPROPERTY()
+	ARLVehicleAgentsManager* RLVehicleLearningManager;
+
+
 };

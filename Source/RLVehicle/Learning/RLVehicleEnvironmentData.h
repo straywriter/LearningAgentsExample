@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "RLVehicleEnvironmentConstantData.generated.h"
+#include "RLVehicleEnvironmentData.generated.h"
 
 
 /**
@@ -12,13 +12,13 @@
  * Example : Track spline
  */
 UCLASS()
-class RLVEHICLE_API ARLVehicleEnvironmentConstantData : public AActor
+class RLVEHICLE_API ARLVehicleEnvironmentData : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ARLVehicleEnvironmentConstantData();
+	ARLVehicleEnvironmentData();
 
 protected:
 	// Called when the game starts or when spawned
