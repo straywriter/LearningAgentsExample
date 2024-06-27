@@ -80,7 +80,7 @@ public:
 	UPROPERTY()
 	ULearningAgentsCritic* Critic;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	ULearningAgentsManager* LearningAgentsManager;
 
 	/** Set URLVehicleSetting blueprint instance */
