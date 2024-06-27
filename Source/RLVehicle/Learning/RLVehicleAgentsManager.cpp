@@ -8,6 +8,7 @@
 #include "RLVehicleAgentsTrainer.h"
 #include "Learning/RLVehicleAgentsInteractor.h"
 #include "RLVehicleDeveloperSettings.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ARLVehicleAgentsManager::ARLVehicleAgentsManager()
@@ -22,8 +23,18 @@ ARLVehicleAgentsManager::ARLVehicleAgentsManager()
 void ARLVehicleAgentsManager::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	Init();
+
+	if(bInitSettings && Setting->AgentClass)
+	{
+		UGameplayStatics::GetAllActorsOfClass(this, Setting->AgentClass, AgentsActors);
+
+		for(const auto& Item : AgentsActors)
+		{
+			Item->AddTickPrerequisiteActor(this);
+		}
+	}
 }
 
 // Called every frame
@@ -31,7 +42,6 @@ void ARLVehicleAgentsManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	/*
 	if(bRunInference)
 	{
 		Policy->RunInference();
@@ -45,8 +55,6 @@ void ARLVehicleAgentsManager::Tick(float DeltaTime)
 			true,
 			true);
 	}
-	*/
-
 }
 
 PRAGMA_DISABLE_OPTIMIZATION
@@ -103,6 +111,14 @@ bool ARLVehicleAgentsManager::InitSettings()
 		UE_LOG(LogTemp, Warning, TEXT("Load DefaultSetting"));
 	}
 
+	if(Setting->IsAllSetting())
+	{
+		Setting->EncoderNeuralNetworkAsset.LoadSynchronous();
+		Setting->PolicyNeuralNetworkAsset.LoadSynchronous();
+		Setting->DecoderNeuralNetworkAsset.LoadSynchronous();
+		Setting->CriticNeuralNetworkAsset.LoadSynchronous();
+	}
+
 	return bInitSettings = true;
 }
 
@@ -129,7 +145,16 @@ void ARLVehicleAgentsManager::MakePolicy()
 	Policy = ULearningAgentsPolicy::MakePolicy(
 		LearningAgentsManager,
 		Interactor,
-		TSubclassOf<ULearningAgentsPolicy>(ULearningAgentsPolicy::StaticClass()));
+		TSubclassOf<ULearningAgentsPolicy>(ULearningAgentsPolicy::StaticClass()),
+		Setting->PolicyName,
+		Setting->EncoderNeuralNetworkAsset.Get(),
+		Setting->PolicyNeuralNetworkAsset.Get(),
+		Setting->DecoderNeuralNetworkAsset.Get(),
+		!bRunInference,
+		!bRunInference,
+		!bRunInference,
+		Setting->AgentsPolicySettings,
+		1234);
 	
 }
 
@@ -139,7 +164,12 @@ void ARLVehicleAgentsManager::MakeCircle()
 		LearningAgentsManager,
 		Interactor,
 		Policy,
-		TSubclassOf<ULearningAgentsCritic>(ULearningAgentsCritic::StaticClass()));
+		TSubclassOf<ULearningAgentsCritic>(ULearningAgentsCritic::StaticClass()),
+		Setting->CriticName,
+		Setting->CriticNeuralNetworkAsset.Get(),
+		!bRunInference,
+		Setting->AgentsCriticSettings,
+		1234);
 }
 
 void ARLVehicleAgentsManager::MakeTrainer()
@@ -150,7 +180,8 @@ void ARLVehicleAgentsManager::MakeTrainer()
 			Interactor,
 			Policy,
 			Critic,
-			TSubclassOf<ULearningAgentsTrainer>(Setting->AgentTrainerClass)));
-	
+			TSubclassOf<ULearningAgentsTrainer>(Setting->AgentTrainerClass),
+			Setting->TrainerName,
+			Setting->AgentsTrainerSettings));
 }
 

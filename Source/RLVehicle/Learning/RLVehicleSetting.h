@@ -27,15 +27,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
 	FName PolicyName;
 	
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
-	//
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+	FName InteractorName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+	FName CriticName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleName")
+	FName TrainerName;
 	
 	/** Class */
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleClass")
-	TSubclassOf<UObject> AgentClass;
+	TSubclassOf<AActor> AgentClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleClass")
 	TSubclassOf<URLVehicleAgentsInteractor> AgentInteractorClass;
@@ -83,4 +87,6 @@ public:
 public:	
 	// Sets default values for this actor's properties
 	URLVehicleSetting();
+
+	bool IsAllSetting();
 };

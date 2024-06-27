@@ -5,6 +5,23 @@
 #include "RLVehicleSportsWheelFront.h"
 #include "RLVehicleSportsWheelRear.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Learning/RLVehicleAgentsManager.h"
+
+void ARLVehicleSportsCar::BeginPlay()
+{
+	Super::BeginPlay();
+
+	auto Manager = Cast<ARLVehicleAgentsManager>(UGameplayStatics::GetActorOfClass(this, ARLVehicleAgentsManager::StaticClass()));
+	if(Manager)
+	{
+		Manager->LearningAgentsManager->AddAgent(this);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("RLVehicleAgentsManager not found"));
+	}
+}
 
 ARLVehicleSportsCar::ARLVehicleSportsCar()
 {

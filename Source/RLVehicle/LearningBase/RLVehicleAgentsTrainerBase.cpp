@@ -46,8 +46,8 @@ void URLVehicleAgentsTrainerBase::GatherAgentReward_Implementation(float& OutRew
 
 void URLVehicleAgentsTrainerBase::ResetAgentEpisode_Implementation(const int32 AgentId)
 {
-	// TODO: Random 
-	
+	const auto RewardAgent = Cast<AgentClass>(Manager->GetAgent(AgentId, GetRLVehicleManager()->GetSetting()->AgentClass));
+	EnvironmentData->ResetToRandomPointOnSpline(RewardAgent, EnvironmentData->TrackSpline->SplineComponent);
 }
 
 void URLVehicleAgentsTrainerBase::GatherAgentCompletion_Implementation(

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RLVehicleSportsCar.h"
 #include "SplineActor.h"
 #include "Learning/RLVehicleEnvironmentData.h"
 #include "EnvironmentDataBase.generated.h"
@@ -15,8 +16,12 @@ class RLVEHICLE_API AEnvironmentDataBase : public ARLVehicleEnvironmentData
 {
 	GENERATED_BODY()
 
+	using AgentClass = ARLVehicleSportsCar;
+
 public:
 	UPROPERTY(EditInstanceOnly, Category="RLVehicle")
 	ASplineActor* TrackSpline;
+
+	void ResetToRandomPointOnSpline(ARLVehicleSportsCar* Vehicle, USplineComponent* Spline);
 
 };

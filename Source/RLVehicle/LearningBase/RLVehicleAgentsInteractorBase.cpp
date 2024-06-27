@@ -53,7 +53,7 @@ void URLVehicleAgentsInteractorBase::GatherAgentObservation_Implementation(
 	TMap<FName, FLearningAgentsObservationObjectElement> TrackElementsMap;
 
 	TrackElementsMap.Add(FName(TEXT("Location")), TrackElement0);
-	TrackElementsMap.Add(FName(TEXT("Dirction")), TrackElement1);
+	TrackElementsMap.Add(FName(TEXT("Direction")), TrackElement1);
 
 	auto TrackElement = ULearningAgentsObservations::MakeStructObservation(InObservationObject, TrackElementsMap);
 
@@ -99,12 +99,12 @@ void URLVehicleAgentsInteractorBase::PerformAgentAction_Implementation(
 	auto SteeringElement = Elements.Find(FName(TEXT("Steering")));
 
 	float Steering = 0.f;
-	ULearningAgentsActions::GetFloatAction(Steering, InActionObject, *SteeringElement, 1.f);
+	ULearningAgentsActions::GetFloatAction(Steering, InActionObject, *SteeringElement, 1.f, FName(TEXT("Steering")));
 	ActionAgent->GetVehicleMovementComponent()->SetSteeringInput(Steering);
 
 	auto ThrottleBrakeElement = Elements.Find(FName(TEXT("ThrottleBrake")));
 	float ThrottleBrake = 0.f;
-	ULearningAgentsActions::GetFloatAction(ThrottleBrake, InActionObject, *ThrottleBrakeElement, 1.f);
+	ULearningAgentsActions::GetFloatAction(ThrottleBrake, InActionObject, *ThrottleBrakeElement, 1.f, FName(TEXT("ThrottleBrake")));
 
 	if(ThrottleBrake > 0.f)
     {

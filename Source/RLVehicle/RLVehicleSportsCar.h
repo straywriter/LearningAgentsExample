@@ -16,5 +16,7 @@ class RLVEHICLE_API ARLVehicleSportsCar : public ARLVehiclePawn
 	
 public:
 
+	virtual void BeginPlay() override;
+
 	ARLVehicleSportsCar();
 };

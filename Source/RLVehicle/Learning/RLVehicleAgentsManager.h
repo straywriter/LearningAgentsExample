@@ -36,6 +36,7 @@ public:
 	void Init();
 
 	/** Setting */
+	
 	bool bInitSettings = false;
 
 	bool InitSettings();
@@ -91,5 +92,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Instanced)
 	URLVehicleSetting* Setting;
+
+	UPROPERTY()
+	TArray<AActor*> AgentsActors;
+	
 	
 };
