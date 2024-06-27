@@ -17,12 +17,11 @@ class RLVEHICLE_API URLVehicleAgentsTrainer : public ULearningAgentsTrainer
 
 public:
 
-	virtual void Init(){}
+	virtual void Init(ARLVehicleAgentsManager* InManager);
 	
 	ARLVehicleAgentsManager* GetRLVehicleManager() const { return RLVehicleLearningManager; }
 
 	UPROPERTY()
 	ARLVehicleAgentsManager* RLVehicleLearningManager;
-
 
 };

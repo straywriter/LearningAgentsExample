@@ -7,6 +7,20 @@
 #include "Components/SplineComponent.h"
 #include "Learning/RLVehicleSetting.h"
 
+void URLVehicleAgentsInteractorBase::Init(ARLVehicleAgentsManager* InManager)
+{
+	Super::Init(InManager);
+
+	auto Verify = Cast<AEnvironmentDataBase>(InManager->GetEnvironmentData());
+	if (Verify == nullptr)
+    {
+        UE_LOG(LogTemp, Error, TEXT("EnvironmentData is not EnvironmentDataBase"));
+		return;
+    }
+
+	EnvironmentData = Verify;
+}
+
 void URLVehicleAgentsInteractorBase::GatherAgentObservation_Implementation(
 	FLearningAgentsObservationObjectElement& OutObservationObjectElement,
 	ULearningAgentsObservationObject* InObservationObject, const int32 AgentId)
@@ -69,7 +83,7 @@ void URLVehicleAgentsInteractorBase::SpecifyAgentAction_Implementation(
 	ElementsMap.Add(FName(TEXT("Steering")), SteeringAction);
 	ElementsMap.Add(FName(TEXT("ThrottleBrake")), ThrottleBrakeAction);
 
-	ULearningAgentsActions::SpecifyStructAction(InActionSchema,ElementsMap);
+	OutActionSchemaElement = ULearningAgentsActions::SpecifyStructAction(InActionSchema,ElementsMap);
 	
 }
 

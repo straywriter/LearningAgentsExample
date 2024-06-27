@@ -4,6 +4,11 @@
 #include "RLVehicleAgentsInteractor.h"
 
 
+void URLVehicleAgentsInteractor::Init(ARLVehicleAgentsManager* InManager)
+{
+	RLVehicleLearningManager = InManager;
+}
+
 void URLVehicleAgentsInteractor::GatherAgentObservation_Implementation(
 	FLearningAgentsObservationObjectElement& OutObservationObjectElement,
 	ULearningAgentsObservationObject* InObservationObject, const int32 AgentId)

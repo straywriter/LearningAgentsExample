@@ -37,8 +37,10 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "DefaultSetting")
 	TSoftObjectPtr<ULearningAgentsNeuralNetwork> CriticNeuralNetworkAsset; /** For Make Critic*/
 
-	UPROPERTY(Config, EditAnywhere, Category = "DefaultSetting")
-	TSoftObjectPtr<URLVehicleSetting> VehicleSettingAsset;
+	/** Class */
+
+	UPROPERTY(Config, EditAnywhere, Category = "DefaultClass")
+	TSubclassOf<URLVehicleSetting> VehicleSettingClss;
 	
 	UPROPERTY(Config, EditAnywhere, Category = "DefaultClass")
 	TSubclassOf<URLVehicleAgentsInteractor> AgentInteractorClass;

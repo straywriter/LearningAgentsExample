@@ -3,3 +3,7 @@
 
 #include "RLVehicleAgentsTrainer.h"
 
+void URLVehicleAgentsTrainer::Init(ARLVehicleAgentsManager* InManager)
+{
+	RLVehicleLearningManager = InManager;
+}

@@ -17,8 +17,8 @@ class ARLVehicleEnvironmentData;
  * Different Settings through blueprint instance
  * Setting interactor trainer and manager
  */
-UCLASS()
-class RLVEHICLE_API URLVehicleSetting : public UObject, public IInterface_AssetUserData
+UCLASS(Blueprintable, BlueprintType)
+class RLVEHICLE_API URLVehicleSetting : public UObject
 {
 	GENERATED_BODY()
 
@@ -79,10 +79,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicleDataAsset")
 	TSoftObjectPtr<ULearningAgentsNeuralNetwork> CriticNeuralNetworkAsset; /** For Make Critic*/
-
-	void LoadAndCheckDataAsset();
-
-	void Init();
 	
 public:	
 	// Sets default values for this actor's properties

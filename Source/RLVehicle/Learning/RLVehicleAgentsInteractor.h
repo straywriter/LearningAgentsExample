@@ -17,7 +17,7 @@ class RLVEHICLE_API URLVehicleAgentsInteractor : public ULearningAgentsInteracto
 
 public:
 
-	virtual void Init(){}
+	virtual void Init(ARLVehicleAgentsManager* InManager);
 
 	ARLVehicleAgentsManager* GetRLVehicleManager() const { return RLVehicleLearningManager; }
 

@@ -20,6 +20,7 @@ class RLVEHICLE_API URLVehicleAgentsInteractorBase : public URLVehicleAgentsInte
 	using AgentClass = ARLVehicleSportsCar;
 
 public:
+	virtual void Init(ARLVehicleAgentsManager* InManager) override;
 
 	virtual void GatherAgentObservation_Implementation(
 		FLearningAgentsObservationObjectElement& OutObservationObjectElement,

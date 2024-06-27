@@ -21,12 +21,13 @@ class RLVEHICLE_API URLVehicleAgentsTrainerBase : public URLVehicleAgentsTrainer
 
 public:
 
+	virtual void Init(ARLVehicleAgentsManager* InManager) override;
+
 	virtual void GatherAgentReward_Implementation(float& OutReward, const int32 AgentId) override;
 
 	virtual void ResetAgentEpisode_Implementation(const int32 AgentId) override;
 	
 	virtual void GatherAgentCompletion_Implementation(ELearningAgentsCompletion& OutCompletion, const int32 AgentId) override;
-
 	
 	UPROPERTY()
 	AEnvironmentDataBase* EnvironmentData;

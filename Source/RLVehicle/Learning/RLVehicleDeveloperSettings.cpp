@@ -9,11 +9,11 @@
 
 bool URLVehicleDeveloperSettings::IsAllSetting()
 {
-	if (EncoderNeuralNetworkAsset.IsValid() &&
-		DecoderNeuralNetworkAsset.IsValid() &&
-		PolicyNeuralNetworkAsset.IsValid() &&
-		CriticNeuralNetworkAsset.IsValid() &&
-		VehicleSettingAsset.IsValid() &&
+	if (EncoderNeuralNetworkAsset.ToSoftObjectPath().IsValid() &&
+		DecoderNeuralNetworkAsset.ToSoftObjectPath().IsValid() &&
+		PolicyNeuralNetworkAsset.ToSoftObjectPath().IsValid() &&
+		CriticNeuralNetworkAsset.ToSoftObjectPath().IsValid() &&
+		IsValid(VehicleSettingClss.Get()) &&
 		IsValid(AgentInteractorClass.Get()) &&
 		IsValid(AgentTrainerClass.Get()) &&
 		IsValid(EnvironmentConstantDataClass.Get()))

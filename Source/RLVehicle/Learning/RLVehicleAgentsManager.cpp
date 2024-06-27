@@ -14,7 +14,8 @@ ARLVehicleAgentsManager::ARLVehicleAgentsManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	LearningAgentsManager = CreateDefaultSubobject<ULearningAgentsManager>(TEXT("LearningAgentsManager"));
 }
 
 // Called when the game starts or when spawned
@@ -22,7 +23,7 @@ void ARLVehicleAgentsManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	LearningAgentsManager = CreateDefaultSubobject<ULearningAgentsManager>(TEXT("LearningAgentsManager"));
+	Init();
 }
 
 // Called every frame
@@ -30,6 +31,7 @@ void ARLVehicleAgentsManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	/*
 	if(bRunInference)
 	{
 		Policy->RunInference();
@@ -43,27 +45,41 @@ void ARLVehicleAgentsManager::Tick(float DeltaTime)
 			true,
 			true);
 	}
+	*/
 
 }
 
+PRAGMA_DISABLE_OPTIMIZATION
+
 void ARLVehicleAgentsManager::Init()
 {
-
 	//1. Init settings
 	if(!InitSettings())
 		return;
 
 	//2. Init environment
+	InitEnvironmentData();
 
 	//3. Make Interactor
+	MakeInteractor();
+	if(!Interactor)
+		return;
+	Interactor->Init(this);
 
 	//4. Make Policy
+	MakePolicy();
 
 	//5. Make Critic
+	MakeCircle();
 
 	//6. Make Trainer
+	MakeTrainer();
+	if(!Trainer)
+		return;
+	Trainer->Init(this);
 	
 }
+PRAGMA_ENABLE_OPTIMIZATION
 
 /** TODO: 如果每个训练场景中只有一个Setting, 可以放到Subsystem初始化, Project Setting设置 */
 bool ARLVehicleAgentsManager::InitSettings()
@@ -73,33 +89,29 @@ bool ARLVehicleAgentsManager::InitSettings()
 
 	if(!DefaultSetting->IsAllSetting())
 	{
-		UE_LOG(LogTemp, Fatal, TEXT("DefaultSetting is invalid"));
+		UE_LOG(LogTemp, Error, TEXT("DefaultSetting is invalid"));
 	}
 
 	// Init settings
-	if(SettingAsset.IsValid())
-	{
-		Setting = SettingAsset.LoadSynchronous();
-	}
+	if(SettingAsset)
+    {
+		Setting = NewObject<URLVehicleSetting>(this, SettingAsset);
+    }
 	else
 	{
-		Setting = DefaultSetting->VehicleSettingAsset.IsValid() ? DefaultSetting->VehicleSettingAsset.LoadSynchronous() : nullptr;
+		Setting = NewObject<URLVehicleSetting>(this, DefaultSetting->VehicleSettingClss);
 		UE_LOG(LogTemp, Warning, TEXT("Load DefaultSetting"));
 	}
 
-	if(Setting)
-	{
-		bInitSettings = true;
-		UE_LOG(LogTemp, Log, TEXT("Success Load Setting"));
-	}
-
-	return bInitSettings;
+	return bInitSettings = true;
 }
 
 void ARLVehicleAgentsManager::InitEnvironmentData()
 {
-	
+	// TODO: 暂时场景中通过EditInstanceOnly指定
 }
+
+PRAGMA_DISABLE_OPTIMIZATION
 
 void ARLVehicleAgentsManager::MakeInteractor()
 {
@@ -110,6 +122,7 @@ void ARLVehicleAgentsManager::MakeInteractor()
 			TEXT("Name")));
 	
 }
+PRAGMA_ENABLE_OPTIMIZATION
 
 void ARLVehicleAgentsManager::MakePolicy()
 {
@@ -137,7 +150,7 @@ void ARLVehicleAgentsManager::MakeTrainer()
 			Interactor,
 			Policy,
 			Critic,
-			TSubclassOf<ULearningAgentsTrainer>(Setting->AgentInteractorClass)));
+			TSubclassOf<ULearningAgentsTrainer>(Setting->AgentTrainerClass)));
 	
 }
 

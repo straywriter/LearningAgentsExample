@@ -8,6 +8,20 @@
 #include "Components/SplineComponent.h"
 #include "Learning/RLVehicleSetting.h"
 
+void URLVehicleAgentsTrainerBase::Init(ARLVehicleAgentsManager* InManager)
+{
+	Super::Init(InManager);
+
+	auto Verify = Cast<AEnvironmentDataBase>(InManager->GetEnvironmentData());
+	if (Verify == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("EnvironmentData is not EnvironmentDataBase"));
+		return;
+	}
+
+	EnvironmentData = Verify;
+}
+
 void URLVehicleAgentsTrainerBase::GatherAgentReward_Implementation(float& OutReward, const int32 AgentId)
 {
 	const auto RewardAgent = Cast<AgentClass>(Manager->GetAgent(AgentId, GetRLVehicleManager()->GetSetting()->AgentClass));

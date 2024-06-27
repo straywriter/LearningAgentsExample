@@ -13,6 +13,7 @@ class URLVehicleAgentsTrainer;
 class URLVehicleAgentsInteractor;
 class ULearningAgentsPolicy;
 class ULearningAgentsCritic;
+class AEnvironmentDataBase;
 
 
 UCLASS()
@@ -34,13 +35,24 @@ public:
 	
 	void Init();
 
+	/** Setting */
 	bool bInitSettings = false;
 
 	bool InitSettings();
 
 	URLVehicleSetting* GetSetting() { return Setting; }
+	
+	/** Environment Data */
 
+	// TODO: 暂时只支持单场景多Agent训练, 后续支持多场景多Agent训练
 	void InitEnvironmentData();
+
+	AEnvironmentDataBase* GetEnvironmentData() const { return EnvironmentData; }
+
+	UPROPERTY(EditInstanceOnly, Category="RLVehicle")
+	AEnvironmentDataBase* EnvironmentData;
+
+	/** Train */
 
 	void MakeInteractor();
 	
@@ -50,18 +62,16 @@ public:
 	
 	void MakeTrainer();
 
-	// TODO: 支持同场景多训练环境情况
-
 	// TODO: 多线程优化, 
 	void BeginTraning();
 
 	UPROPERTY(EditAnywhere)
 	bool bRunInference;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	URLVehicleAgentsTrainer* Trainer;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	URLVehicleAgentsInteractor* Interactor;
 	
 	UPROPERTY()
@@ -70,15 +80,16 @@ public:
 	UPROPERTY()
 	ULearningAgentsCritic* Critic;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicle")
+	UPROPERTY()
 	ULearningAgentsManager* LearningAgentsManager;
 
 	/** Set URLVehicleSetting blueprint instance */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RLVehicle")
-	TSoftObjectPtr<URLVehicleSetting> SettingAsset;
+	TSubclassOf<URLVehicleSetting> SettingAsset;
 
 private:
 
-	TObjectPtr<URLVehicleSetting> Setting;
+	UPROPERTY(EditAnywhere, Instanced)
+	URLVehicleSetting* Setting;
 	
 };
