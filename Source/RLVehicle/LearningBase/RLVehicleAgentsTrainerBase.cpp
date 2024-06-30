@@ -31,7 +31,7 @@ void URLVehicleAgentsTrainerBase::GatherAgentReward_Implementation(float& OutRew
 		TrackSpline,
 		RewardAgent->GetActorLocation(),
 		RewardAgent->GetVelocity(),
-		10000.f,
+		1000.f,
 		1.f,
 		10.f);
 

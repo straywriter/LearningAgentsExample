@@ -23,6 +23,9 @@ ARLVehicleAgentsManager::ARLVehicleAgentsManager()
 void ARLVehicleAgentsManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+    // TODO:
+	LearningAgentsManager->PostInitProperties();
 	
 	Init();
 
@@ -127,18 +130,14 @@ void ARLVehicleAgentsManager::InitEnvironmentData()
 	// TODO: 暂时场景中通过EditInstanceOnly指定
 }
 
-PRAGMA_DISABLE_OPTIMIZATION
-
 void ARLVehicleAgentsManager::MakeInteractor()
 {
 	Interactor = Cast<URLVehicleAgentsInteractor>(
 		ULearningAgentsInteractor::MakeInteractor(
 			LearningAgentsManager,
 			TSubclassOf<ULearningAgentsInteractor>(Setting->AgentInteractorClass),
-			TEXT("Name")));
-	
+			Setting->InteractorName));
 }
-PRAGMA_ENABLE_OPTIMIZATION
 
 void ARLVehicleAgentsManager::MakePolicy()
 {
